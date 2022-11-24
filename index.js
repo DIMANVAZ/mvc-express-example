@@ -9,6 +9,7 @@ const app = new express();
 app.use(express.json());    // не размещать слишком низко в коде: не будет читаться ответ req.body
 
 app.use('/motos/', router); // роутер для адресов /motos/**
+app.set('view engine', 'pug');
 
 const PORT = process.env.APP_PORT || '5001';
 app.listen(PORT, ()=> console.log('Listening on port', PORT));

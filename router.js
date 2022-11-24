@@ -13,7 +13,7 @@ const {getAll, getOne, post, put, remove} = new Controller();
 router.get('/', getAll);
 router.post('/', post);
 router.get('/:innerID', getOne);
-router.put('/',put);
+router.put('/:innerID',put);
 router.delete('/:innerID', remove);
 
 export default router;

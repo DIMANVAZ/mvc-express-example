@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+    head
+        title= 'Motorcycles'
+    body
+        h3 #{message}
+
+        table
+            tr
+                th InnerID
+                th Brand
+                th Model
+                th Year
+            // если нам прилетели всеЗаписи
+            if allRecords!==false
+            each moto in allRecords
+                tr
+                    td  #{moto.innerID}
+                    td  #{moto.brand}
+                    td  #{moto.model}
+                    td  #{moto.year}
+            // если прилетела одна запись, и она = объект
+            if one !== null && typeof one === 'object'
+                tr
+                    td  #{one.innerID}
+                    td  #{one.brand}
+                    td  #{one.model}
+                    td  #{one.year}

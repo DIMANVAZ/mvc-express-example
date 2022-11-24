@@ -11,35 +11,50 @@ export default class Controller {
     // получить все записи
     async getAll(req, res){
         const all = await getAll();
-        res.status(200).send(JSON.stringify(all));
+        res
+            .status(200)
+            .render('main', {allRecords:all, one:false, message:'getAll'});
     }
 
     // внести запись
     async post(req, res){
         const {brand, model, year} = req.body;
         const result = await post({brand, model, year});
-        res.status(201).send(JSON.stringify(result));
+        res
+            .status(200)
+            .render('main', {allRecords:false, one:result, message:'post'});
     }
 
     // получить запись по id (не через query, а через url-params просто)
     async getOne(req, res){
         const innerID = req.params.innerID;
         const result = await getOne(innerID);
-        res.status(201).send(JSON.stringify(result));
+        const message = result.length ? 'Запись найдена: ' : "Запись не найдена "
+        res
+            .status(200)
+            .render('main', {allRecords:false, one:result[0], message:message});
     }
 
     // изменить запись по innerID (а откуда возьмётся innerID - это задача Контроллера)
     async put(req, res){
-        const {innerID, brand, model, year} = req.body;
-        console.log(innerID, brand, model, year);
+        const {brand, model, year} = req.body;
+        const innerID = req.params.innerID;
         const result = await changeOne(innerID, {brand, model, year});
-        res.status(201).send(JSON.stringify(result));
+        const message = result[0] === 1 ? "Успешно обновлено: " : "Не вышло обновить: "
+        res
+            .status(200)
+            .render('main', {allRecords:false, one:{innerID, brand, model, year}, message:message});
     }
 
     // удалить запись по innerID (а откуда возьмётся innerID - это задача Контроллера)
     async remove(req, res){
         const innerID = req.params.innerID;
         const result = await remove(innerID);
-        res.status(201).send(JSON.stringify(result));
+
+        const message = result === 1 ? "Успешно удалено: " : "Не вышло удалить: "
+        res
+            .status(200)
+            .render('main', {allRecords:false, one:{innerID, brand:'', model:'', year:''}, message:message});
     }
 }
+
