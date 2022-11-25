@@ -21,7 +21,7 @@ export default class Controller {
         const {brand, model, year} = req.body;
         const result = await post({brand, model, year});
         res
-            .status(201)
+            .status(200)
             .render('main', {allRecords:false, one:result, message:"Успешно добавлено: "});
     }
 
@@ -52,7 +52,7 @@ export default class Controller {
         let status, message;
         if(result[0] === 1){
             message = "Успешно обновлено: ";
-            status = 200;
+            status = 201;
         } else {
             message = "Не вышло обновить: ";
             status = 204;

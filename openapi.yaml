@@ -1,0 +1,136 @@
+openapi: 3.0.1
+info:
+  title: SPA для демонстрации MVC
+  description: >-
+    Проект для закрепления концепции MVC.
+    View - движок Pug;
+    Controller - файл controller.js;
+    Model(Бизнес-логика) - файл db_service.js;
+  version: 1.0.0
+  contact:
+    name: Ayrat Sungatullin
+    url: https://github.com/DIMANVAZ/mvc-express-example
+    email: dimanvaz04@gmail.com
+servers:
+  - url: http://localhost:5000/
+    description: основной сервер на локалхосте
+paths:
+  /motos/:
+    get:
+      description: Получить JSON-список всех записей
+      summary: получить все записи
+      tags:
+        - Все записи
+      responses:
+        '200':
+          description: Успешно
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/allRecords'
+
+  /motos/:innerID:
+    get:
+      description: Получить одну запись по innerID
+      summary: получить одну запись
+      tags:
+        - одна запись
+      responses:
+        '200':
+          description: Запись найдена
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/record'
+        '204':
+          description: Запись не найдена
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+
+    post:
+      description: Добавить запись
+      summary: добавить запись
+      tags:
+        - одна запись
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/record'
+      responses:
+        '200':
+          description: Успешно добавлен
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/record'
+
+    put:
+      description: Обновить информацию о записи по innerID
+      summary: обновить инфо о записи
+      tags:
+        - одна запись
+      responses:
+        '201':
+          description: Успешно обновлено
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/record'
+        '204':
+          description: Не вышло обновить
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+
+    delete:
+      description: Удалить запись по innerID
+      summary: удалить запись
+      tags:
+        - одна запись
+      responses:
+        '201':
+          description: Успешно удалена
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/record'
+        '204':
+          description: Не вышло удалить
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+
+components:
+  schemas:
+    record:
+      type: object
+      required:
+        - brand
+        - model
+        - year
+      properties:
+        brand:
+          description: производитель
+          type: string
+          example: Honda
+        model:
+          description: модель
+          type: string
+          example: Africa
+        year:
+          description: год выпуска
+          type: number
+          example: 2021
+    allRecords:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/record'
