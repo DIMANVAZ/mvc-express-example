@@ -13,7 +13,7 @@ export default class Controller {
         const all = await getAll();
         res
             .status(200)
-            .render('main', {allRecords:all, one:false, message:'getAll'});
+            .render('main', {allRecords:all, one:false, message:"Все записи: "});
     }
 
     // внести запись
@@ -21,17 +21,26 @@ export default class Controller {
         const {brand, model, year} = req.body;
         const result = await post({brand, model, year});
         res
-            .status(200)
-            .render('main', {allRecords:false, one:result, message:'post'});
+            .status(201)
+            .render('main', {allRecords:false, one:result, message:"Успешно добавлено: "});
     }
 
     // получить запись по id (не через query, а через url-params просто)
     async getOne(req, res){
         const innerID = req.params.innerID;
         const result = await getOne(innerID);
-        const message = result.length ? 'Запись найдена: ' : "Запись не найдена "
+        let status, message;
+
+        if(result.length){
+            message = "Запись найдена: ";
+            status = 200;
+        } else {
+            message = "Запись не найдена ";
+            status = 204;
+        }
+
         res
-            .status(200)
+            .status(status)
             .render('main', {allRecords:false, one:result[0], message:message});
     }
 
@@ -40,9 +49,17 @@ export default class Controller {
         const {brand, model, year} = req.body;
         const innerID = req.params.innerID;
         const result = await changeOne(innerID, {brand, model, year});
-        const message = result[0] === 1 ? "Успешно обновлено: " : "Не вышло обновить: "
+        let status, message;
+        if(result[0] === 1){
+            message = "Успешно обновлено: ";
+            status = 200;
+        } else {
+            message = "Не вышло обновить: ";
+            status = 204;
+        }
+
         res
-            .status(200)
+            .status(status)
             .render('main', {allRecords:false, one:{innerID, brand, model, year}, message:message});
     }
 
@@ -50,10 +67,17 @@ export default class Controller {
     async remove(req, res){
         const innerID = req.params.innerID;
         const result = await remove(innerID);
+        let status, message;
+        if(result === 1){
+            message = "Успешно удалена: ";
+            status = 200;
+        } else {
+            message = "Не вышло удалить: ";
+            status = 204;
+        }
 
-        const message = result === 1 ? "Успешно удалено: " : "Не вышло удалить: "
         res
-            .status(200)
+            .status(status)
             .render('main', {allRecords:false, one:{innerID, brand:'', model:'', year:''}, message:message});
     }
 }
