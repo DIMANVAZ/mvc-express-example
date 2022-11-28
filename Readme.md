@@ -5,7 +5,7 @@
     Model (Бизнес-логика, Сервис) - файл db_service.js;
     База данных - Postgres.
 
->см. также прилагаемую спецификацию OpenAPI.
+>см. также прилагаемую [спецификацию OpenAPI](https://github.com/DIMANVAZ/mvc-express-example/blob/master/openapi.yaml).
 
 #### View
 внешка для пользователя. В нашем случае - движок Pug. Данные в него передаёт контроллер. Данные в контроллер (http-запросы на эндпоинты) я передавал через Postman.
