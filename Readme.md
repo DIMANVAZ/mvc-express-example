@@ -16,4 +16,4 @@
 #### Model (Бизнес-логика, Service)
 делает всю движуху с БД (КРУД). Схему-модель БД импортирует из db_manager.js. Функции для КРУДА  определяются тут же. В них попадают уже нормальные данные из Контроллера.
 
-[![N|Solid](pic/express-js-tutorial-300x97.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](pic/express-js-tutorial-300x97.png)](https://expressjs.com/ru/)
